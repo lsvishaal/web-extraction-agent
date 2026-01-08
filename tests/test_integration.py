@@ -4,6 +4,7 @@ import shlex
 import subprocess
 import time
 import uuid
+from pathlib import Path
 
 import pytest
 import requests
@@ -46,11 +47,13 @@ def agent_process():
     """Start the agent for testing."""
     # Start the agent in the background
     cmd = "python -m web_extraction_agent"
+    # Use the directory containing this test file as the reference point
+    project_root = Path(__file__).parent.parent
     process = subprocess.Popen(  # noqa: S603
         shlex.split(cmd),
         stdout=subprocess.PIPE,
         stderr=subprocess.PIPE,
-        cwd="/home/atomic/Documents/Code/OSS/Bindu-/bindu_agents/web-extraction-agent",
+        cwd=str(project_root),
     )
 
     # Wait for agent to start
@@ -86,7 +89,8 @@ def test_send_message(agent_process):
     """Test sending a message to the agent."""
     result = send_a2a_message("Hello, what can you do?")
     assert "result" in result
-    assert result["result"]["status"]["state"] == "submitted"
+    # Task can be submitted or working depending on processing speed
+    assert result["result"]["status"]["state"] in ("submitted", "working", "completed")
 
 
 if __name__ == "__main__":
