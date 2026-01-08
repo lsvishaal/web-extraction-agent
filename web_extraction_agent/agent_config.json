@@ -42,5 +42,9 @@
       "description": "Mem0 API key for memory operations",
       "required": true
     }
-  ]
+  ],
+  "metadata": {
+    "domain": "general",
+    "specialization": "multi-purpose"
+  }
 }

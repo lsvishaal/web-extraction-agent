@@ -187,6 +187,7 @@ cython_debug/
 
 # Bindu
 .bindu/
+BINDU_AGENT_SETUP_GUIDE.md
 
 # Visual Studio Code
 #  Visual Studio Code specific template is maintained in a separate VisualStudioCode.gitignore
