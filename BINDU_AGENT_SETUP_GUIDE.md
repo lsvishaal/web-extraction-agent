@@ -1,8 +1,8 @@
 # Complete Bindu Agent Setup Guide: From Zero to Production
 
-**Version:** 1.0  
-**Date:** January 8, 2026  
-**Framework:** Bindu Agent Framework v2026.1.7  
+**Version:** 1.0
+**Date:** January 8, 2026
+**Framework:** Bindu Agent Framework v2026.1.7
 **Author:** Senior DevOps Engineer
 
 ---
