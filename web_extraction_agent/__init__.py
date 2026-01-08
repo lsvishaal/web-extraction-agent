@@ -1,0 +1,28 @@
+# |---------------------------------------------------------|
+# |                                                         |
+# |                 Give Feedback / Get Help                |
+# | https://github.com/getbindu/Bindu/issues/new/choose    |
+# |                                                         |
+# |---------------------------------------------------------|
+#
+#  Thank you users! We ❤️ you! - 🌻
+
+"""web-extraction-agent - An Bindu Agent."""
+
+from web_extraction_agent.__version__ import __version__
+from web_extraction_agent.main import (
+    handler,
+    initialize_agent,
+    initialize_config,
+    initialize_tools,
+    main,
+)
+
+__all__ = [
+    "__version__",
+    "handler",
+    "initialize_agent",
+    "initialize_config",
+    "initialize_tools",
+    "main",
+]

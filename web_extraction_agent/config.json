@@ -1,0 +1,29 @@
+{
+  "tools": {
+    "firecrawl": {
+      "name": "firecrawl",
+      "command": "npx -y firecrawl-mcp",
+      "enabled": true,
+      "environment": {
+        "FIRECRAWL_API_KEY": "fc-6571505efb79403785c9e2b478c19873"
+      },
+      "timeout": 30,
+      "description": "Web scraping and content extraction using Firecrawl"
+    }
+  },
+  "prompts": {
+    "default": {
+      "name": "default",
+      "template": "You are a helpful AI assistant specializing in web extraction and content analysis.\nYour capabilities include:\n- Extracting structured data from web pages\n- Analyzing web content and organizing it\n- Providing detailed information from web sources\n\nAlways:\n- Be accurate and precise in your extraction\n- Maintain data structure and hierarchy\n- Ask for clarification if needed\n- Format responses clearly\n",
+      "enabled": true,
+      "version": "1.0",
+      "description": "Default web extraction assistant prompt"
+    }
+  },
+  "active_tools": [
+    "firecrawl"
+  ],
+  "active_prompt": "default",
+  "model_id": "openai/gpt-5",
+  "debug": false
+}

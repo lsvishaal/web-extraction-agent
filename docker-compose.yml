@@ -1,0 +1,19 @@
+services:
+  web_extraction_agent:
+    build:
+      context: .
+      dockerfile: Dockerfile.agent
+    container_name: web_extraction_agent
+    ports:
+      - "3773:3773"
+    env_file:
+      - .env
+    volumes:
+      - ./logs:/app/logs
+    restart: unless-stopped
+    networks:
+      - web_extraction_agent-network
+
+networks:
+  web_extraction_agent-network:
+    driver: bridge
