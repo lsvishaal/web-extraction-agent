@@ -4,7 +4,6 @@
   "description": "an AI agent that transforms unstructured web content into organized, structured data by combining Firecrawl\u2019s web scraping with Pydantic\u2019s structured output validation.",
   "version": "1.0.0",
   "recreate_keys": false,
-  "skills": [],
   "capabilities": {},
   "agent_trust": "low",
   "debug_mode": true,
@@ -28,6 +27,11 @@
   },
   "num_history_sessions": 5,
   "environment_variables": [
+    {
+      "key": "FIRECRAWL_API_KEY",
+      "description": "Firecrawl API key for web scraping operations",
+      "required": true
+    },
     {
       "key": "OPENROUTER_API_KEY",
       "description": "OpenRouter API key for LLM calls",

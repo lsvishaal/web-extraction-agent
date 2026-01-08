@@ -71,9 +71,6 @@ jobs:
               "name": "agno",
               "version": "1.0.0"
             },
-            "environment_variables": ${{ toJson(fromJson(steps.agent_config.outputs.config).environment_variables) }},
-            "execution_cost": ${{ toJson(fromJson(steps.agent_config.outputs.config).execution_cost || fromJson('{}')) }},
-            "auth": ${{ toJson(fromJson(steps.agent_config.outputs.config).auth || fromJson('{}')) }},
             "deployment": {
               "url": "${{ fromJson(steps.agent_config.outputs.config).deployment.url }}",
               "protocol_version": "${{ fromJson(steps.agent_config.outputs.config).deployment.protocol_version }}",
