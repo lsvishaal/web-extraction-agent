@@ -1,0 +1,430 @@
+# Web Content Extraction Skill
+# Transform unstructured web content into organized, structured data
+
+# Basic Metadata
+id: web-content-extraction-v1
+name: web-content-extraction
+version: 1.0.0
+author: vishaallsv@gmail.com
+
+# Description
+description: |
+  Transform unstructured web content into organized, structured data by combining
+  Firecrawl's web scraping with Pydantic's structured output validation.
+  Handles dynamic websites, JavaScript-rendered content, and multi-page crawling.
+
+# Tags and Modes
+tags:
+  - web-scraping
+  - content-extraction
+  - data-extraction
+  - structured-output
+  - firecrawl
+  - web-crawling
+  - html-parsing
+
+input_modes:
+  - text/plain
+  - text/html
+  - application/json
+
+output_modes:
+  - application/json
+  - text/plain
+  - text/markdown
+
+# Example Queries
+examples:
+  - "Extract all product information from this e-commerce page"
+  - "Scrape article content from this news website"
+  - "Get structured data from this company's about page"
+  - "Extract contact information from this website"
+  - "Parse pricing table from this SaaS landing page"
+  - "Crawl documentation site and extract all API endpoints"
+
+# Detailed Capabilities
+capabilities_detail:
+  web_scraping:
+    supported: true
+    types:
+      - single_page
+      - multi_page_crawl
+      - dynamic_content
+      - javascript_rendered
+    rate_limiting: true
+    respects_robots_txt: true
+    limitations: "Firecrawl API rate limits apply based on subscription tier"
+
+  content_extraction:
+    supported: true
+    extraction_types:
+      - text
+      - html
+      - markdown
+      - structured_data
+    selectors:
+      - css
+      - xpath
+      - semantic_parsing
+    preserves_formatting: true
+
+  structured_output:
+    supported: true
+    validation: pydantic
+    output_formats:
+      - json
+      - markdown
+      - plain_text
+    schema_generation: true
+    nested_structures: true
+
+  data_cleaning:
+    supported: true
+    features:
+      - whitespace_normalization
+      - html_entity_decoding
+      - duplicate_removal
+      - content_deduplication
+
+  multi_page_crawling:
+    supported: true
+    max_pages: 100
+    concurrent_requests: 5
+    depth_limit: 3
+    follows_links: true
+
+# Requirements
+requirements:
+  packages:
+    - bindu==2026.1.7
+    - agno>=2.2.0
+    - fastmcp>=2.11.0
+    - requests>=2.31.0
+    - openai>=2.11.0
+    - mem0ai>=1.0.1
+  api_keys:
+    - FIRECRAWL_API_KEY
+    - OPENROUTER_API_KEY
+    - MEM0_API_KEY
+  min_memory_mb: 256
+
+# Performance Metrics
+performance:
+  avg_processing_time_ms: 3000
+  avg_time_per_page_ms: 1500
+  max_concurrent_requests: 5
+  memory_per_request_mb: 100
+  timeout_per_request_seconds: 30
+  scalability: horizontal
+  cache_enabled: true
+  cache_ttl_minutes: 60
+
+# Tool Restrictions
+allowed_tools:
+  - Read
+  - Execute
+
+# Rich Documentation
+documentation:
+  overview: |
+    This agent specializes in web content extraction and transformation, converting
+    unstructured web pages into clean, structured data. It leverages Firecrawl's
+    powerful scraping engine for reliable content extraction from modern websites,
+    including those with JavaScript rendering and dynamic content.
+
+    The agent uses Pydantic for output validation, ensuring consistent and type-safe
+    structured data that's immediately usable in downstream applications. It handles
+    rate limiting, respects robots.txt, and provides robust error handling.
+
+  use_cases:
+    when_to_use:
+      - User needs to extract structured data from websites
+      - User wants to scrape product information, prices, or inventory
+      - User needs to monitor content changes on web pages
+      - User wants to extract article content, news, or blog posts
+      - User needs to parse contact information or business data
+      - User wants to crawl documentation or knowledge bases
+      - User needs to extract data from JavaScript-heavy sites
+
+    when_not_to_use:
+      - Real-time streaming data (use streaming-data-agent)
+      - API-based data access available (use api-integration-agent)
+      - PDF document extraction (use pdf-processing-agent)
+      - Image processing or OCR (use vision-agent)
+      - Video content extraction (use video-processing-agent)
+      - Large-scale batch scraping (>1000 pages, use dedicated scraping service)
+
+  input_structure: |
+    Accepts URLs with optional configuration:
+
+    {
+      "url": "https://example.com/page",
+      "operation": "extract|crawl|scrape",
+      "options": {
+        "max_pages": 10,
+        "depth": 2,
+        "extract_schema": {
+          "title": "string",
+          "price": "number",
+          "description": "string"
+        },
+        "output_format": "json|markdown|text",
+        "follow_links": true,
+        "exclude_patterns": ["*/admin/*", "*/login/*"]
+      }
+    }
+
+    URL constraints:
+    - Must be valid HTTP/HTTPS URL
+    - Respects robots.txt
+    - Rate limited per Firecrawl API tier
+
+  output_format: |
+    Single Page Extraction:
+    {
+      "success": true,
+      "data": {
+        "url": "https://example.com/product",
+        "title": "Amazing Product",
+        "content": "Extracted content...",
+        "structured_data": {
+          "name": "Product Name",
+          "price": 99.99,
+          "description": "Product description",
+          "availability": "In Stock"
+        },
+        "metadata": {
+          "scraped_at": "2026-01-08T12:00:00Z",
+          "processing_time_ms": 2500,
+          "content_type": "text/html",
+          "status_code": 200
+        }
+      }
+    }
+
+    Multi-Page Crawl:
+    {
+      "success": true,
+      "pages": [
+        {
+          "url": "https://example.com/page1",
+          "title": "Page 1",
+          "content": "...",
+          "structured_data": {...}
+        },
+        {
+          "url": "https://example.com/page2",
+          "title": "Page 2",
+          "content": "...",
+          "structured_data": {...}
+        }
+      ],
+      "metadata": {
+        "total_pages": 2,
+        "failed_pages": 0,
+        "processing_time_ms": 5000,
+        "crawl_depth": 1
+      }
+    }
+
+  error_handling:
+    - "Rate Limit Exceeded: Waits and retries with exponential backoff"
+    - "Invalid URL: Returns validation error with clear message"
+    - "Robots.txt Blocked: Returns permission denied with alternatives"
+    - "Timeout: Returns partial results if available, reports timeout"
+    - "HTTP Errors: Returns error code with descriptive message"
+    - "Network Errors: Retries up to 3 times before failing"
+    - "Invalid Schema: Returns validation error with schema requirements"
+
+  examples:
+    - title: "Extract Product Data from E-commerce Site"
+      input:
+        url: "https://example.com/products/laptop"
+        operation: "extract"
+        options:
+          extract_schema:
+            name: "string"
+            price: "number"
+            specs: "object"
+            availability: "string"
+      output:
+        success: true
+        data:
+          url: "https://example.com/products/laptop"
+          title: "Premium Laptop"
+          structured_data:
+            name: "Dell XPS 15"
+            price: 1299.99
+            specs:
+              processor: "Intel i7"
+              ram: "16GB"
+              storage: "512GB SSD"
+            availability: "In Stock"
+          metadata:
+            scraped_at: "2026-01-08T12:00:00Z"
+            processing_time_ms: 2200
+
+    - title: "Scrape Article Content"
+      input:
+        url: "https://example.com/blog/ai-trends-2026"
+        operation: "scrape"
+        options:
+          output_format: "markdown"
+      output:
+        success: true
+        data:
+          url: "https://example.com/blog/ai-trends-2026"
+          title: "AI Trends in 2026"
+          content: "# AI Trends in 2026\n\nThe landscape of artificial intelligence..."
+          metadata:
+            word_count: 1500
+            reading_time_minutes: 6
+            processing_time_ms: 1800
+
+    - title: "Crawl Documentation Site"
+      input:
+        url: "https://docs.example.com"
+        operation: "crawl"
+        options:
+          max_pages: 20
+          depth: 2
+          follow_links: true
+          exclude_patterns: ["*/api-reference/*"]
+      output:
+        success: true
+        pages:
+          - url: "https://docs.example.com/"
+            title: "Home"
+            content: "..."
+          - url: "https://docs.example.com/getting-started"
+            title: "Getting Started"
+            content: "..."
+        metadata:
+          total_pages: 15
+          failed_pages: 0
+          processing_time_ms: 22000
+          crawl_depth: 2
+
+    - title: "Extract Contact Information"
+      input:
+        url: "https://example.com/contact"
+        operation: "extract"
+        options:
+          extract_schema:
+            email: "string"
+            phone: "string"
+            address: "string"
+            social_media: "object"
+      output:
+        success: true
+        data:
+          structured_data:
+            email: "contact@example.com"
+            phone: "+1-555-0123"
+            address: "123 Main St, City, State 12345"
+            social_media:
+              twitter: "@example"
+              linkedin: "company/example"
+          metadata:
+            processing_time_ms: 1500
+
+  best_practices:
+    for_developers:
+      - "Validate URLs before processing"
+      - "Use appropriate rate limiting to avoid API quota exhaustion"
+      - "Define clear extraction schemas for structured output"
+      - "Handle errors gracefully with user-friendly messages"
+      - "Cache results for frequently accessed pages"
+      - "Use exclude_patterns to avoid unnecessary page scraping"
+      - "Monitor API usage and set up alerts for quota limits"
+
+    for_orchestrators:
+      - "Route based on operation type (extract vs. crawl)"
+      - "Consider using cached results for recently scraped pages"
+      - "Estimate processing time: ~1.5s per page"
+      - "Chain with text-analysis or nlp-agents for content understanding"
+      - "Use performance metrics for load balancing"
+      - "Implement retry logic with exponential backoff"
+      - "Monitor Firecrawl API rate limits"
+      - "Consider batching multiple URL requests"
+
+  installation: |
+    Required packages:
+    uv add bindu agno fastmcp requests openai mem0ai
+
+    Environment variables:
+    export FIRECRAWL_API_KEY="fc-your-key-here"
+    export OPENROUTER_API_KEY="sk-or-v1-your-key-here"
+    export MEM0_API_KEY="m0-your-key-here"
+
+    Running the agent:
+    uv run python -m web_extraction_agent
+
+  versioning:
+    - version: "1.0.0"
+      date: "2026-01-08"
+      changes: "Initial release with Firecrawl integration and Pydantic validation"
+    - version: "1.1.0"
+      status: "planned"
+      changes: "Add screenshot capture and visual element extraction"
+    - version: "1.2.0"
+      status: "planned"
+      changes: "Enhanced multi-page crawling with sitemap support"
+
+# Assessment fields for skill negotiation
+assessment:
+  keywords:
+    - web
+    - scrape
+    - scraping
+    - extract
+    - extraction
+    - crawl
+    - website
+    - content
+    - html
+    - parse
+    - data
+    - structured
+    - firecrawl
+    - url
+
+  specializations:
+    - domain: e_commerce
+      confidence_boost: 0.3
+    - domain: content_extraction
+      confidence_boost: 0.3
+    - domain: data_scraping
+      confidence_boost: 0.3
+    - domain: web_crawling
+      confidence_boost: 0.2
+    - domain: structured_data
+      confidence_boost: 0.2
+
+  anti_patterns:
+    - "pdf"
+    - "document"
+    - "video"
+    - "image processing"
+    - "ocr"
+    - "api integration"
+    - "database"
+    - "real-time streaming"
+
+  complexity_indicators:
+    simple:
+      - "single page"
+      - "extract text"
+      - "scrape url"
+      - "get content"
+    medium:
+      - "multiple pages"
+      - "structured data"
+      - "specific fields"
+      - "crawl site"
+    complex:
+      - "javascript rendering"
+      - "dynamic content"
+      - "large scale"
+      - "batch processing"
+      - "deep crawling"
