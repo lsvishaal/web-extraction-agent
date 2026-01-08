@@ -1,6 +1,7 @@
 {
   "author": "vishaallsv@gmail.com",
   "name": "web-extraction-agent",
+  "type": "agno",
   "description": "an AI agent that transforms unstructured web content into organized, structured data by combining Firecrawl\u2019s web scraping with Pydantic\u2019s structured output validation.",
   "version": "1.0.0",
   "recreate_keys": false,
