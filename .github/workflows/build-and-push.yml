@@ -93,9 +93,23 @@ jobs:
           EOFPAYLOAD
 
           # Post to backend
-          curl --fail --location 'https://bindus.getbindu.com/bindu-register' \
+          response=$(curl --write-out '\n%{http_code}' --location 'https://bindus.getbindu.com/bindu-register' \
             --header 'accept: application/json' \
             --header 'X-Bindu-CI: true' \
             --header 'X-API-Token: ${{ secrets.BINDU_API_TOKEN }}' \
             --header 'Content-Type: application/json' \
-            --data @/tmp/register-payload.json
+            --data @/tmp/register-payload.json)
+
+          http_code=$(echo "$response" | tail -n1)
+          body=$(echo "$response" | sed '$d')
+
+          echo "HTTP Status Code: $http_code"
+          echo "Response Body: $body"
+
+          if [ "$http_code" -ne 200 ] && [ "$http_code" -ne 201 ]; then
+            echo "Error: Registration failed with status $http_code"
+            echo "Response: $body"
+            exit 1
+          fi
+
+          echo "Successfully registered agent"
